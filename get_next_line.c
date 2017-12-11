@@ -69,14 +69,15 @@ t_list *get_file(const int fd, t_list *head)
 {
 	t_list *temp;
 
-	temp = head;
-	while (temp)
+	while (head)
 	{
-		if (temp->content_size == fd)
-			return (temp);
-		temp = temp->next;
+		if (head->content_size == fd)
+			return (head);
+		temp = head;
+		head = head->next;
 	}
 	ft_lstadd_back(&temp, ft_lstnew(ft_strnew(BUFF_SIZE), fd));
+	temp = temp->next;
 	return (temp);
 
 }
@@ -92,7 +93,7 @@ int	get_next_line(const int fd, char **line)
 	if (!head)
 	{
 		head = ft_lstnew(ft_strnew(BUFF_SIZE), fd);
-		buffer = head->content;
+		file = head;
 	}
 	else
 	{
@@ -101,5 +102,5 @@ int	get_next_line(const int fd, char **line)
 	}
 	if (!buffer)
 		return (ERROR);
-	return(fetch_line(fd, &buffer, line, 1));
+	return(fetch_line(fd, (char **)&(file->content), line, 1));
 }
