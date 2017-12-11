@@ -24,7 +24,10 @@ static void fill_and_cut(char **line, char **buffer, char *line_end)
 	if (*line)
 		ft_memcpy(*line, *buffer, len);
 	temp = *buffer;
-	*buffer = ft_strdup(++line_end);
+	if (*line_end == '\n')
+		*buffer = ft_strdup(++line_end);
+	else
+		*buffer = ft_strdup(line_end);
 	ft_strdel(&temp);
 }
 
@@ -48,6 +51,7 @@ static int	fetch_line(const int fd, char **buffer, char **line, int bytes)
 {
 	char	*line_end;
 
+	line_end = NULL;
 	if (!(line_end = ft_strchr(*buffer, '\n')) && bytes)
 	{
 		bytes = read_source(fd, buffer);
@@ -55,6 +59,8 @@ static int	fetch_line(const int fd, char **buffer, char **line, int bytes)
 	}
 	if ((bytes > 0 && line_end) || (!bytes && ft_strlen(*buffer)))
 	{
+		if (!line_end)
+			line_end = *buffer + ft_strlen(*buffer);
 		fill_and_cut(line, buffer, line_end);
 		return (1);
 	}
