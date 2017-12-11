@@ -18,7 +18,9 @@
 # include <sys/uio.h>
 # include <unistd.h>
 
-# define BUFF_SIZE 20
+# define BUFF_SIZE 100000000
+# define ERROR -1
+# define FILE_END 0
 
 int get_next_line(const int fd,char **line);
 

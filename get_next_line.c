@@ -37,7 +37,7 @@ static int read_source(const int fd, char **buffer)
 	temp = ft_strnew(BUFF_SIZE);
 	temp2 = *buffer;
 	if ((bytes = read(fd, temp, BUFF_SIZE)) == -1)
-		return (-1);
+		return (ERROR);
 	*buffer = ft_strjoin(*buffer, temp);
 	ft_strdel(&temp);
 	ft_strdel(&temp2);
@@ -59,19 +59,47 @@ static int	fetch_line(const int fd, char **buffer, char **line, int bytes)
 		return (1);
 	}
 	if (bytes == -1)
-		return (-1);
+		return (ERROR);
 	fill_and_cut(line, buffer, *buffer);
 	ft_strdel(buffer);
-	return (0);
+	return (FILE_END);
+}
+
+t_list *get_file(const int fd, t_list *head)
+{
+	t_list *temp;
+
+	temp = head;
+	while (temp)
+	{
+		if (temp->content_size == fd)
+			return (temp);
+		temp = temp->next;
+	}
+	ft_lstadd_back(&temp, ft_lstnew(ft_strnew(BUFF_SIZE), fd));
+	return (temp);
+
 }
 
 int	get_next_line(const int fd, char **line)
 {
-	static char	*buffer;
+	static t_list *head;
+	char	*buffer;
+	t_list *file;
 
 	if (fd < 0)
-		return (-1);
-	if (!buffer && !(buffer = ft_strnew(0)))
-		return (-1);
+		return (ERROR);
+	if (!head)
+	{
+		head = ft_lstnew(ft_strnew(BUFF_SIZE), fd);
+		buffer = head->content;
+	}
+	else
+	{
+		file = get_file(fd, head);
+		buffer = file->content;
+	}
+	if (!buffer)
+		return (ERROR);
 	return(fetch_line(fd, &buffer, line, 1));
 }
