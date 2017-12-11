@@ -4,5 +4,4 @@
 !.gitignore
 *.o
 README.md
-testing/*
 cleantrash
