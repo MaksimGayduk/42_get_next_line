@@ -67,7 +67,6 @@ static int	fetch_line(const int fd, char **buffer, char **line, int bytes)
 	if (bytes == -1)
 		return (ERROR);
 	fill_and_cut(line, buffer, *buffer);
-	ft_strdel(buffer);
 	return (FILE_END);
 }
 
@@ -84,29 +83,24 @@ t_list *get_file(const int fd, t_list *head)
 	}
 	ft_lstadd_back(&temp, ft_lstnew(ft_strnew(BUFF_SIZE), fd));
 	temp = temp->next;
+	temp->content_size = fd;
 	return (temp);
-
 }
 
 int	get_next_line(const int fd, char **line)
 {
 	static t_list *head;
-	char	*buffer;
 	t_list *file;
 
 	if (fd < 0)
 		return (ERROR);
 	if (!head)
 	{
-		head = ft_lstnew(ft_strnew(BUFF_SIZE), fd);
+		head = ft_lstnew(ft_strnew(BUFF_SIZE), BUFF_SIZE);
+		head->content_size = fd;
 		file = head;
 	}
 	else
-	{
 		file = get_file(fd, head);
-		buffer = file->content;
-	}
-	if (!buffer)
-		return (ERROR);
 	return(fetch_line(fd, (char **)&(file->content), line, 1));
 }
