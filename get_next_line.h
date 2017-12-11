@@ -6,7 +6,7 @@
 /*   By: mgayduk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:03:02 by mgayduk           #+#    #+#             */
-/*   Updated: 2017/12/07 17:13:05 by mgayduk          ###   ########.fr       */
+/*   Updated: 2017/12/11 16:48:55 by mgayduk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 # include <sys/uio.h>
 # include <unistd.h>
 
-# define BUFF_SIZE 100000000
+# define BUFF_SIZE 100
 # define ERROR -1
 # define FILE_END 0
 
-int get_next_line(const int fd,char **line);
+int get_next_line(const int fd, char **line);
 
 #endif

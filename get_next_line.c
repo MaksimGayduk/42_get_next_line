@@ -6,20 +6,18 @@
 /*   By: mgayduk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:03:55 by mgayduk           #+#    #+#             */
-/*   Updated: 2017/12/07 17:13:55 by mgayduk          ###   ########.fr       */
+/*   Updated: 2017/12/11 16:48:28 by mgayduk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void fill_and_cut(char **line, char **buffer, char *line_end)
+static void		fill_and_cut(char **line, char **buffer, char *line_end)
 {
-	size_t len;
-	char *temp;
+	size_t	len;
+	char	*temp;
 
 	len = line_end - *buffer;
-	if (*line)
-		ft_strdel(line);
 	*line = ft_strnew(len);
 	if (*line)
 		ft_memcpy(*line, *buffer, len);
@@ -31,7 +29,7 @@ static void fill_and_cut(char **line, char **buffer, char *line_end)
 	ft_strdel(&temp);
 }
 
-static int read_source(const int fd, char **buffer)
+static int		read_source(const int fd, char **buffer)
 {
 	int		bytes;
 	char	*temp;
@@ -47,12 +45,12 @@ static int read_source(const int fd, char **buffer)
 	return (bytes);
 }
 
-static int	fetch_line(const int fd, char **buffer, char **line, int bytes)
+static int		fetch_line(const int fd, char **buffer, char **line, int bytes)
 {
 	char	*line_end;
 
 	line_end = NULL;
-	if (!(line_end = ft_strchr(*buffer, '\n')) && bytes)
+	if (!(line_end = ft_strchr(*buffer, '\n')) && bytes > 0)
 	{
 		bytes = read_source(fd, buffer);
 		return (fetch_line(fd, buffer, line, bytes));
@@ -70,13 +68,13 @@ static int	fetch_line(const int fd, char **buffer, char **line, int bytes)
 	return (FILE_END);
 }
 
-t_list *get_file(const int fd, t_list *head)
+t_list			*get_file(const int fd, t_list *head)
 {
 	t_list *temp;
 
 	while (head)
 	{
-		if (head->content_size == fd)
+		if (head->content_size == (size_t)fd)
 			return (head);
 		temp = head;
 		head = head->next;
@@ -87,20 +85,23 @@ t_list *get_file(const int fd, t_list *head)
 	return (temp);
 }
 
-int	get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
-	static t_list *head;
-	t_list *file;
+	static t_list	*head;
+	t_list			*file;
+	char			*temp;
 
 	if (fd < 0)
 		return (ERROR);
 	if (!head)
 	{
-		head = ft_lstnew(ft_strnew(BUFF_SIZE), BUFF_SIZE);
+		temp = ft_strnew(BUFF_SIZE);
+		head = ft_lstnew(temp, BUFF_SIZE);
 		head->content_size = fd;
 		file = head;
+		ft_strdel(&temp);
 	}
 	else
 		file = get_file(fd, head);
-	return(fetch_line(fd, (char **)&(file->content), line, 1));
+	return (fetch_line(fd, (char **)&(file->content), line, 1));
 }

@@ -6,7 +6,7 @@
 /*   By: mgayduk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:05:58 by mgayduk           #+#    #+#             */
-/*   Updated: 2017/12/07 17:10:10 by mgayduk          ###   ########.fr       */
+/*   Updated: 2017/12/11 15:34:27 by mgayduk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int main(int argc __attribute__ ((unused)), char **argv __attribute__ ((unused))
 	char *line2 = NULL;
     int fd1;
     int fd2;
-	int res1;
-	int res2;
+	int res1 = 1;
+	int res2 = 1;
 
     fd1 = open(argv[1], O_RDONLY, 0);
     fd2 = open(argv[2], O_RDONLY, 0);
