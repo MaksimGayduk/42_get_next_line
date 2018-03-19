@@ -33,10 +33,10 @@ int main(int argc __attribute__ ((unused)), char **argv __attribute__ ((unused))
         printf("String readed fd: %i : %s\t: with result %i\n", fd1, line1, res1);
         res2 = get_next_line(fd2, &line2);
         printf("String readed fd: %i : %s\t: with result %i\n", fd2, line2, res2);
+        ft_strdel(&line1);
+        ft_strdel(&line2);
     }
 
-    ft_strdel(&line1);
-    ft_strdel(&line2);
 	close(fd1);
 	close(fd2);
 	return (0);

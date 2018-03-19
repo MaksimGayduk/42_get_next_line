@@ -24,9 +24,10 @@ int main(int argc __attribute__ ((unused)), char **argv __attribute__ ((unused))
     fd = 0;
 
     while ((res = get_next_line(fd, &line)))
+    {
     	printf("String readed fd: %i : %s\t: with result %i\n", fd, line, res);
-
-    ft_strdel(&line);
+    	ft_strdel(&line);
+    }
 
 	close(fd);
 	return (0);

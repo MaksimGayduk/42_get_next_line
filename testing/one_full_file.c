@@ -23,10 +23,12 @@ int main(int argc __attribute__ ((unused)), char **argv __attribute__ ((unused))
 
     fd = open(argv[1], O_RDONLY, 0);
 
-    while ((res = get_next_line(fd, &line)))
+    while (get_next_line(fd, &line) > 0)
+    {
     	printf("String readed fd: %i : %s\t: with result %i\n", fd, line, res);
+    	ft_strdel(&line);
+    }
 
-    ft_strdel(&line);
 
 	close(fd);
 	return (0);

@@ -28,13 +28,17 @@ int main(int argc __attribute__ ((unused)), char **argv __attribute__ ((unused))
     fd2 = open(argv[2], O_RDONLY, 0);
 
     while ((res1 = get_next_line(fd1, &line1)))
+    {
         printf("String readed fd: %i : %s\t: with result %i\n", fd1, line1, res1);
+        ft_strdel(&line1);
+    }
 
     while ((res2 = get_next_line(fd2, &line2)))
+    {
         printf("String readed fd: %i : %s\t: with result %i\n", fd2, line2, res2);
+        ft_strdel(&line2);
+    }
 
-    ft_strdel(&line1);
-    ft_strdel(&line2);
 	close(fd1);
 	close(fd2);
 	return (0);
