@@ -70,7 +70,8 @@ static int		fetch_line(const int fd, char **buffer, char **line, int bytes)
 
 t_list			*get_file(const int fd, t_list *head)
 {
-	t_list *temp;
+	t_list	*temp;
+	t_list	*node;
 
 	while (head)
 	{
@@ -79,9 +80,11 @@ t_list			*get_file(const int fd, t_list *head)
 		temp = head;
 		head = head->next;
 	}
-	ft_lstadd_back(&temp, ft_lstnew(ft_strnew(BUFF_SIZE), fd));
+	node = ft_lstnew(NULL, 0);
+	node->content = ft_strnew(BUFF_SIZE);
+	node->content_size = fd;
+	ft_lstadd_back(&temp, node);
 	temp = temp->next;
-	temp->content_size = fd;
 	return (temp);
 }
 
@@ -89,17 +92,15 @@ int				get_next_line(const int fd, char **line)
 {
 	static t_list	*head;
 	t_list			*file;
-	char			*temp;
 
 	if (fd < 0)
 		return (ERROR);
 	if (!head)
 	{
-		temp = ft_strnew(BUFF_SIZE);
-		head = ft_lstnew(temp, BUFF_SIZE);
+		head = ft_lstnew(NULL, 0);
+		head->content = ft_strnew(BUFF_SIZE);
 		head->content_size = fd;
 		file = head;
-		ft_strdel(&temp);
 	}
 	else
 		file = get_file(fd, head);

@@ -29,7 +29,6 @@ int main(int argc __attribute__ ((unused)), char **argv __attribute__ ((unused))
     	ft_strdel(&line);
     }
 
-
 	close(fd);
 	return (0);
 }
